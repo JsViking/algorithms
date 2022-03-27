@@ -9,23 +9,22 @@ const graph = {
 
 function breadthSearch(graph, start, end) {
     let queue = [];
-    let path = [];
+    const checked = []
     queue.push(start);
 
     while(queue.length > 0) {
         const current = queue.shift();
-        path.push(current)
         if (!graph[current]) graph[current] = []
-        
+        if (checked.includes[current]) continue;
         if (graph[current].includes(end)) {
-            path.push(end)
-            return path;
+            return true;
         } else {
             queue = [...queue, ...graph[current]]
+            checked.push(current)
         }
     }
 
     return false
 }
 
-console.log(breadthSearch(graph, 'a', 'g'))
+console.log(breadthSearch(graph, 'a', 'h'))

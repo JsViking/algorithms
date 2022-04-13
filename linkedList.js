@@ -7,40 +7,41 @@ class ItemList {
 
 class LinkedList {
     constructor() {
-        this.tail = null;
         this.head = null;
+        this.tail = null;
     };
 
     _addFirstItem(value) {
-        this.tail = new ItemList(value);
-        this.head = this.tail;
+        this.head =new ItemList(value);
+        this.tail = this.head;
     };
 
     push(value) {
         if (!value) return;
-        if (!this.tail) {
+        if (!this.head) {
             this._addFirstItem(value);
         } else {
             const item = new ItemList(value);
-            this.head.next = item;
-            this.head = item;
+            const lastNode = this.tail
+            lastNode.next = item;
+            this.tail = lastNode.next;
         }
     };
 
     unshift(value) {
         if (!value) return;
-        if (!this.tail) {
+        if (!this.head) {
             this._addFirstItem(value);
         } else {
-            const item = new ItemList(value, this.tail);
-            this.tail = item;
+            const item = new ItemList(value, this.head);
+            this.head = item;
         }
     };
 
     find(fn) {
-        if (!this.tail) return;
+        if (!this.head) return;
         if (!fn || typeof fn !== 'function') return;
-        let next = this.tail;
+        let next = this.head;
         while(next) {
             if (fn(next.value)) return next;
             else next = next.next;
@@ -61,18 +62,18 @@ class LinkedList {
     };
 
     remove(fn) {
-        if (!this.tail) return;
+        if (!this.head) return;
 
         let prev = null;
-        let current = this.tail;
+        let current = this.head;
 
         while(current) {
             if (fn(current.value)) {
                 if (!prev) {
-                    this.tail = current.next;
+                    this.head = current.next;
                 } else if (!current.next) {
                     prev.next = null
-                    this.head = prev;
+                    this.tail = prev;
                 } else {
                     prev.next = current.next;
                 }
@@ -85,7 +86,7 @@ class LinkedList {
     };
 
     toArray() {
-        let next = this.tail;
+        let next = this.head;
         const results = [];
         while(next) {
             results.push(next.value);
